@@ -1,0 +1,9 @@
+With this MicroArch project
+we're covered all the topics that are required for a production grade project
+1. Service Discovery
+2. Cenetralized Configuration
+3. Distributed Tracing
+4. Event Driven Architecture
+5. Centralized Logging
+6. Circuit Breaker
+7. Secure Microserivce using KeyCloak
