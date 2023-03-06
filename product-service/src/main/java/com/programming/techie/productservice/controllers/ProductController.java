@@ -14,7 +14,7 @@ public class ProductController {
     @Autowired
     private ProductRepository productRepository;
 
-    @GetMapping("/")
+    @GetMapping()
     @ResponseStatus(HttpStatus.OK)
     public List<Product> getAllProducts(){
         return productRepository.findAll();

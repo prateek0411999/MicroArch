@@ -1,9 +1,21 @@
 With this MicroArch project
 we're covered all the topics that are required for a production grade project
 1. Service Discovery
-2. Cenetralized Configuration
+2. Centralized Configuration
 3. Distributed Tracing
 4. Event Driven Architecture
 5. Centralized Logging
 6. Circuit Breaker
 7. Secure Microserivce using KeyCloak
+
+
+
+
+
+1. We created the Product service, Order Service & Created a Discovery Server (Eureka registry) where we've added spring-cloud-starter-netflix-eureka-server
+ dependency & @EnableEurekaServer annotation so that it will acts as eureka server which maintains all the eureka clients so that load balancer can detect the appropiate microservice to call
+
+ Also for tihe clients i.e. Product & order service we've just added the client dependency, configured the applicaton name , as we've added the client dependency, clients will automatically look for the
+ eureka server by first checking to its default port at 8761 & we've specified the same port in our discovery-server microserve so both the clients will automatically catches the server and registers themselves there.
+
+2.
