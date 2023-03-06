@@ -6,7 +6,7 @@ we're covered all the topics that are required for a production grade project
 4. Event Driven Architecture
 5. Centralized Logging
 6. Circuit Breaker
-7. Secure Microserivce using KeyCloak
+7. Secure Microservice using KeyCloak
 
 
 
@@ -18,4 +18,45 @@ we're covered all the topics that are required for a production grade project
  Also for tihe clients i.e. Product & order service we've just added the client dependency, configured the applicaton name , as we've added the client dependency, clients will automatically look for the
  eureka server by first checking to its default port at 8761 & we've specified the same port in our discovery-server microserve so both the clients will automatically catches the server and registers themselves there.
 
-2.
+2. Centralized Configuration
+    In microservice world we've multiple instance of services running right? and they could be on different environment like prod, dev, staging, QA etc.
+    so in order to change any particular configuration we can actually go inside of that instance which is running a microservice and manually change the configuration
+    and then simply re-run the microservice
+    but this is way to hectic & in microservices world where we've thousands of microservices running this becomes very difficult to manage
+    so
+    for that we've this centralized configuration concept that keeps the configuration for all of our microservices at one place
+    consider it as a git repo which contains the configuration file where we've defined the configurations based on different environment
+    We
+    can actually achieve the same using Spring-Cloud-Config-Server dependency
+            Spring-Cloud-Config-Server -> Automatically Provides us with RestFul endpoints to those git repo configuration files
+                                        -> it automically clones the repo locally & create the end points for the clients & clients automatically fetches that & use it   ( micro-services having  spring-cloud-config-client dependency &  spring.cloud.config.uri set to config-server URI -> i.e. -> http://localhost:8888)
+            Spring-Cloud-Config dependency automatically handles this for us
+            # one main point is that
+            # these configurations are required at the startup of a microservice right?
+            # so to achieve that
+            # we use the spring-boot-starter-bootstrap dependency & specify the SPRING CLOUD URI inside the boostrap.properties file
+            # so that these configuration from the git gets loaded first and our application can run successfully
+
+            # We have first created the microservice-config-server repo where we're maintaining the configuration for our
+            # order-service
+            # product-service
+
+           -> In our Configuration-Server Spring boot project
+                we've added the dependency & enabled the microservice to be embeddable by using @EnableConfigServer annotation
+                i.e. this particular microservice will actually go and clone the repo i.e. mentioned using spring.cloud.config.server.git.uri  (in its configuration file -> application.properties)
+           -> In our product & order micro-services
+                we've simply added the client dependency & the spring bootstrap starter dependency so that we can specify the micro-service to first fetch the necessary configuration from the config-server by using ( spring.cloud.config.uri )
+                and spring-cloud-config automatically handles everything for US (right from finding the config-server & fetching the exact configuration for our micro-service)
+
+    #### We've also added the actuator dependency in both of our Spring-Cloud-Config-Client so that
+    # we can make use of
+    # @RefreshScope annotation -> check test controller in product-service
+            (lets say we've done some modification in those git configuration files and pushed our changes to that microservice-config-server repo )
+            (in order to not restart our service & direcly fetch the updated configuration variables we need to use this annotation)
+            (if we'll not use this then we manually need to restart our service & what if we've thousands of those microservice instance running ???)
+                // @RefreshScope annotation is for configuration refresh so
+                // that it will automatically fetch the updated value from the config server
+                // we need to add actuator dependency
+                // as we need the actuator endpoint to trigger the refresh
+                //   -> /actuator/refresh to trigger the configuration refresh
+                // we also need to th
