@@ -29,7 +29,7 @@ we're covered all the topics that are required for a production grade project
     We
     can actually achieve the same using Spring-Cloud-Config-Server dependency
             Spring-Cloud-Config-Server -> Automatically Provides us with RestFul endpoints to those git repo configuration files
-                                        -> it automically clones the repo locally & create the end points for the clients & clients automatically fetches that & use it   ( micro-services having  spring-cloud-config-client dependency &  spring.cloud.config.uri set to config-server URI -> i.e. -> http://localhost:8888)
+                                        -> it automically clones the repo locally (enabled using spring.cloud.config.server.git.clone-on-start = true in configuration file) & create the end points for the clients & clients automatically fetches that & use it   ( micro-services having  spring-cloud-config-client dependency &  spring.cloud.config.uri set to config-server URI -> i.e. -> http://localhost:8888)
             Spring-Cloud-Config dependency automatically handles this for us
             # one main point is that
             # these configurations are required at the startup of a microservice right?
@@ -40,6 +40,10 @@ we're covered all the topics that are required for a production grade project
             # We have first created the microservice-config-server repo where we're maintaining the configuration for our
             # order-service
             # product-service
+
+            # Restful end point to get the data from config-server
+                    # -> localhost:port/order-service/default
+                    # -> localhost:port/product-service/default
 
            -> In our Configuration-Server Spring boot project
                 we've added the dependency & enabled the microservice to be embeddable by using @EnableConfigServer annotation
@@ -60,3 +64,6 @@ we're covered all the topics that are required for a production grade project
                 // as we need the actuator endpoint to trigger the refresh
                 //   -> /actuator/refresh to trigger the configuration refresh
                 // we also need to th
+
+
+3.
