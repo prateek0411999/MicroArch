@@ -17,6 +17,7 @@ public class ProductController {
     @GetMapping()
     @ResponseStatus(HttpStatus.OK)
     public List<Product> getAllProducts(){
+        System.out.println("#@@@@@@@@@@@@@@@@##############");
         return productRepository.findAll();
     }
 

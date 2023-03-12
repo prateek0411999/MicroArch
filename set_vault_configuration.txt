@@ -1,0 +1,5 @@
+vault kv put secret/config-server @config-server.json
+vault kv put secret/product-service @product-service.json
+
+vault kv put secret/order-service @order-service.json
+

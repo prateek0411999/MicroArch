@@ -66,4 +66,34 @@ we're covered all the topics that are required for a production grade project
                 // we also need to th
 
 
+    # LIMITATION OF USING @RefreshScope annoatation
+        The problem with @refreshScope is basically whenever there's a change in the micro-service configuration file
+        We need to hit the actuator endpoint right?
+               ---> http://localhost:product-service-port/actuator/refresh
+        then only
+        @RefreshScope annotation will fetch the updated configuration
+        # but what if there's thousands of product-service instance running on server
+                # we'll keep hitting this actuator endpoint for every product-service instance ???
+                        # this is not feasible as well as practical
+
+    # To overcome this we'll be using RabbitMQ as a message broker
+     ----->>>> which will broadcast the changes to all the services that are subscribed to this message broker
+
+        So in our example instead of product-service checking the change in configuration
+        it will subscribe to the message broker
+        the message broker will inform the same to our product-service as well all other services which are subscribed to it
+    # we can also use Kafka if we want
+    # which will broadcast the changes to all the services which are subscribed to it
+        # we'll be using Spring Cloud Bus Service
+        ------->>>> Spring Cloud Bus links the nodes of a distributed system with a lightweight message broker.
+               Spring cloud bus will make us of our rabbitMQ message broker
+               To enable the To enable the bus, add spring-cloud-starter-bus-amqp as dependency,
+                Spring Cloud Bus provides two endpoints, /actuator/bus-refresh and /actuator/bus-env that correspond to individual actuator endpoints in Spring Cloud Commons
+
+        # in both
+        # product-service
+        # order-service
+        # we've configured them to use RabbitMQ by
+        # setting host & port in bootstrap.properties
+
 3.
