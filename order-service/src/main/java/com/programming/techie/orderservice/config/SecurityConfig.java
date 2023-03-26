@@ -1,14 +1,21 @@
 package com.programming.techie.orderservice.config;
 
-import jakarta.annotation.PostConstruct;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfiguration;
+import org.springframework.security.config.annotation.web.configurers.oauth2.server.resource.OAuth2ResourceServerConfigurer;
+import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
-@EnableWebSecurity
+@Configuration
+@EnableWebMvc
 public class SecurityConfig {
-
-    @PostConstruct
-    public void enableAuthenticationContextOnSpawnedThreads(){
-        SecurityContextHolder.setStrategyName(SecurityContextHolder.MODE_INHERITABLETHREADLOCAL);
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
+        httpSecurity.authorizeHttpRequests(authorize -> authorize.anyRequest().authenticated())
+                .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt);
+        return  httpSecurity.build();
     }
+
 }
