@@ -23,7 +23,6 @@ import java.util.function.Supplier;
 @RequiredArgsConstructor
 @Slf4j
 public class OrderController {
-    private static Logger logger = LoggerFactory.getLogger(OrderDto.class);
     private final OrderRepository orderRepository;
 //    private final InventoryClient inventoryClient;
     private final RestTemplate restTemplate;
@@ -48,10 +47,7 @@ public class OrderController {
                 // we'll inject this interface and call the api
 //        boolean allProductsInStock = orderDto.getOrderLineItems().stream().allMatch(item-> inventoryClient.checkStock(item.getSkuCode()));
         System.out.println("WE ARE HEREEEEEEEEEEEEE !!!!!!!!!!!!!");
-        logger.info("A DEBUG Message");
-        logger.info("A DEBUG Message");
-        logger.info("A DEBUG Message");
-        logger.info("A DEBUG Message");
+
         log.info("This is a test");
         log.info("This is a test");
         log.info("This is a test"); log.info("This is a test"); log.info("This is a test");
@@ -62,7 +58,7 @@ public class OrderController {
 
 
 
-//        boolean allProductsInStock = orderDto.getOrderLineItems().stream().allMatch(item-> restTemplate.getForObject("/api/inventory/" + item.getSkuCode(), Boolean.class));
+        boolean allProductsInStock = orderDto.getOrderLineItems().stream().allMatch(item-> restTemplate.getForObject("/api/inventory/" + item.getSkuCode(), Boolean.class));
 //
 //        if (allProductsInStock){
 //            Order order = new Order();
